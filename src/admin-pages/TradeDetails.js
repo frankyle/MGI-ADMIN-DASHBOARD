@@ -10,15 +10,19 @@ const TradeDetails = () => {
     const fetchTradeDetails = async () => {
       try {
         const response = await axiosInstance.get('/api/tradedetails/tradedetails/');
-        
-        // Sort the trades: active first, then inactive
-        const sortedTrades = response.data.sort((a, b) => b.is_active - a.is_active);
-        
-        setTradeDetails(sortedTrades);
+        console.log('API Response:', response.data); // Debugging
+        if (response.data && Array.isArray(response.data.results)) {
+          // Sort the results array
+          const sortedTrades = response.data.results.sort((a, b) => b.is_active - a.is_active);
+          setTradeDetails(sortedTrades);
+        } else {
+          console.error('Unexpected response format:', response.data);
+        }
       } catch (error) {
         console.error('Error fetching trade details:', error);
       }
     };
+    
 
     fetchTradeDetails();
   }, []);

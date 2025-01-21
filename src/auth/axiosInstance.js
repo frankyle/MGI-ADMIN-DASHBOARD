@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://vercel-django-magai.vercel.app',
+  baseURL: 'http://localhost:8000',
 });
 
 // Request Interceptor: Add Authorization Header
@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
         const refreshToken = localStorage.getItem('refreshToken');
         if (refreshToken) {
           const response = await axios.post(
-            'https://vercel-django-magai.vercel.app/auth/refresh/',
+            'http://localhost:8000/auth/refresh/',
             { refresh: refreshToken }
           );
 
