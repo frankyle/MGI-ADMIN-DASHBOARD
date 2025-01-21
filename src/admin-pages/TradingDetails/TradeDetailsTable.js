@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../auth/axiosInstance';
+import { FaEdit, FaTrashAlt, FaLightbulb } from 'react-icons/fa'; // Import icons
+import CreateButton from '../../utils/CreateButton';
+import { useNavigate } from 'react-router-dom';
 
 const TradeDetailsTable = () => {
   const [tradeDetails, setTradeDetails] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTradeDetails = async () => {
       try {
         const response = await axiosInstance.get('/api/tradedetails/tradedetails/');
-        console.log('API Response:', response.data); // Debugging
         if (response.data && Array.isArray(response.data.results)) {
-          // Sort the results array
           const sortedTrades = response.data.results.sort((a, b) => b.is_active - a.is_active);
           setTradeDetails(sortedTrades);
         } else {
@@ -22,7 +24,6 @@ const TradeDetailsTable = () => {
         console.error('Error fetching trade details:', error);
       }
     };
-    
 
     fetchTradeDetails();
   }, []);
@@ -30,7 +31,7 @@ const TradeDetailsTable = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
-      weekday: 'short', // Optional: for day of the week (e.g., "Thu")
+      weekday: 'short',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -47,9 +48,32 @@ const TradeDetailsTable = () => {
     setSelectedImage(null);
   };
 
+  const handleTradingIdea = (url) => {
+    window.location.href = url; // Redirect to the provided Trading Idea URL
+  };
+
+  const handleEdit = (id) => {
+    // Redirect to the edit page for the specific trade
+    navigate(`/trade-details-edit/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this trade?')) {
+      try {
+        await axiosInstance.delete(`/api/tradedetails/tradedetails/${id}/`);
+        setTradeDetails((prev) => prev.filter((trade) => trade.id !== id));
+        alert('Trade deleted successfully.');
+      } catch (error) {
+        console.error('Error deleting trade:', error);
+        alert('Failed to delete trade.');
+      }
+    }
+  };
+
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
       <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <CreateButton text="Create Trading Detail" redirectTo="/trade-details-create" />
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">Currency Pair</th>
@@ -152,6 +176,34 @@ const TradeDetailsTable = () => {
                 />
               </td>
               <td className="px-6 py-4">{formatDate(trade.created_at)}</td>
+               <td className="px-6 py-4 flex space-x-4">
+                {/* Trading Idea Button */}
+                <button
+                  onClick={() => handleTradingIdea(`/trade-details/edit/${trade.id}`)}
+                  className="text-yellow-500 hover:text-yellow-700"
+                  title="View Trading Idea"
+                >
+                  <FaLightbulb size={20} />
+                </button>
+
+                {/* Edit Button */}
+                <button
+                  onClick={() => handleEdit(trade.id)}
+                  className="text-blue-500 hover:text-blue-700"
+                  title="Edit"
+                >
+                  <FaEdit size={20} />
+                </button>
+
+                {/* Delete Button */}
+                <button
+                  onClick={() => handleDelete(trade.id)}
+                  className="text-red-500 hover:text-red-700"
+                  title="Delete"
+                >
+                  <FaTrashAlt size={20} />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
