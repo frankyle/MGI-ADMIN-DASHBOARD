@@ -3,3 +3,6 @@
 
 # Dashboard Overview plan
 ![alt text](image.png)
+
+# Can Read data from the database 
+![alt text](image-1.png)

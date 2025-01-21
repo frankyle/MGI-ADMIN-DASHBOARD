@@ -10,9 +10,11 @@ const CandleImages = () => {
     const fetchCandleImages = async () => {
       try {
         const response = await axiosInstance.get('/api/candleimages/candleimages/');
-        setCandleImages(response.data);
+        console.log('API Response:', response.data);
+        // Extract the results array
+        setCandleImages(response.data.results);
       } catch (error) {
-        console.error("Error fetching candle images:", error);
+        console.error('Error fetching candle images:', error);
       }
     };
 
@@ -46,21 +48,27 @@ const CandleImages = () => {
           </tr>
         </thead>
         <tbody>
-          {candleImages.map((candleImage) => (
-            <tr key={candleImage.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <td className="px-6 py-4">{candleImage.currency_pair}</td>
-              {['monday_candle', 'tuesday_candle', 'wednesday_candle', 'thursday_candle', 'friday_candle', 'saturday_candle', 'sunday_candle', 'swing_trade_candle'].map((key) => (
-                <td key={key} className="px-6 py-4">
-                  <img
-                    src={candleImage[key]}
-                    alt={`${key.replace('_', ' ')} Candle`}
-                    className="w-24 h-24 object-contain cursor-pointer"
-                    onClick={() => openModal(candleImage[key])}
-                  />
-                </td>
-              ))}
+          {Array.isArray(candleImages) && candleImages.length > 0 ? (
+            candleImages.map((candleImage) => (
+              <tr key={candleImage.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td className="px-6 py-4">{candleImage.currency_pair}</td>
+                {['monday_candle', 'tuesday_candle', 'wednesday_candle', 'thursday_candle', 'friday_candle', 'saturday_candle', 'sunday_candle', 'swing_trade_candle'].map((key) => (
+                  <td key={key} className="px-6 py-4">
+                    <img
+                      src={candleImage[key]}
+                      alt={`${key.replace('_', ' ')} Candle`}
+                      className="w-24 h-24 object-contain cursor-pointer"
+                      onClick={() => openModal(candleImage[key])}
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="9" className="text-center py-4">No candle images available.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 

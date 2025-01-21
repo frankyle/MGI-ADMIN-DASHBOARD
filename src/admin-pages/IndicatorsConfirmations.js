@@ -8,7 +8,10 @@ const IndicatorsConfirnations = () => {
     const fetchTradingIndicators = async () => {
       try {
         const response = await axiosInstance.get('/api/tradingindicators/tradingindicators/');
-        setTradingIndicators(response.data);
+        // Ensure you extract the results array
+        if (response.data && response.data.results) {
+          setTradingIndicators(response.data.results);
+        }
       } catch (error) {
         console.error("Error fetching trading indicators:", error);
       }
