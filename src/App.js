@@ -2,11 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./admin-pages/Header";
 import Dashboard from "./admin-pages/Dashboard";
-import TradeDetails from "./admin-pages/TradeDetails";
 import CandleImages from "./admin-pages/CandleImages";
 import IndicatorsConfirmations from "./admin-pages/IndicatorsConfirmations";
 import Billing from "./admin-pages/Billing";
 import Login from "./auth/Login";
+import TradeDetailsTable from "./admin-pages/TradingDetails/TradeDetailsTable";
+import TableDetailsCreate from "./admin-pages/TradingDetails/TradingDetailsCreate";
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/trade-details" element={<TradeDetails />} />
+            <Route path="/trade-details" element={<TradeDetailsTable />} />
+            <Route path="/trade-details-create" element={<TableDetailsCreate />} />
             <Route path="/candle-images" element={<CandleImages />} />
             <Route path="/indicators-confirmations" element={<IndicatorsConfirmations />} />
             <Route path="/billing" element={<Billing />} />
