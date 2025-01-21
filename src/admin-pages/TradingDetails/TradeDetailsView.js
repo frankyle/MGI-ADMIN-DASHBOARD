@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../auth/axiosInstance';
 import { useNavigate, useParams } from 'react-router-dom';
+import EditTradeDetailsModal from './EditTradeDetailsModal';
+
 
 const TradeDetailsView = () => {
   const [trade, setTrade] = useState(null);
   const { id } = useParams(); // Get the trade id from the URL
   const navigate = useNavigate();
+
+  // Inside TradeDetailsView
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+
+  const handleUpdate = (updatedTrade) => {
+    setTrade(updatedTrade); // Update the trade details in the parent component
+    setModalOpen(false);
+};
 
   useEffect(() => {
     const fetchTradeDetails = async () => {
@@ -109,6 +122,18 @@ const TradeDetailsView = () => {
         >
           Back to Trade Details
         </button>
+
+        <button onClick={handleModalOpen} className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-blue-700">
+          Edit Trade
+        </button>
+
+      
+        <EditTradeDetailsModal
+          open={isModalOpen}
+          handleClose={handleModalClose}
+          trade={trade}
+          onUpdate={handleUpdate}
+        />
       </div>
     </div>
   );

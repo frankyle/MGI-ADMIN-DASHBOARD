@@ -9,3 +9,9 @@
 
 # I have created Component to save data for TradingDetails Component
 ![alt text](image-2.png)
+
+# CRUD buttons 
+![alt text](image-3.png)
+
+# Single Item data
+![alt text](image-4.png)
