@@ -10,6 +10,7 @@ import TradeDetailsTable from "./admin-pages/TradingDetails/TradeDetailsTable";
 import TableDetailsCreate from "./admin-pages/TradingDetails/TradingDetailsCreate";
 import TableDetailsDelete from "./admin-pages/TradingDetails/TradingDetailsDelete"; // Import the Delete component
 import TradingDetailsUpdate from "./admin-pages/TradingDetails/TradingDetailsUpdate";
+import TradeDetailsView from "./admin-pages/TradingDetails/TradeDetailsView";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/trade-details" element={<TradeDetailsTable />} />
             <Route path="/trade-details-create" element={<TableDetailsCreate />} />
             <Route path="/trade-details-edit/:id" element={<TradingDetailsUpdate />} /> {/* Edit Route */}
+            <Route path="/trade-details/:id" element={<TradeDetailsView />} />{/* Read Single item Route */}
             <Route path="/trade-details/delete/:id" element={<TableDetailsDelete />} /> {/* Delete Route */}
             <Route path="/candle-images" element={<CandleImages />} />
             <Route path="/indicators-confirmations" element={<IndicatorsConfirmations />} />

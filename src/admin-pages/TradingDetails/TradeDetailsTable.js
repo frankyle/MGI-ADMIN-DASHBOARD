@@ -48,8 +48,9 @@ const TradeDetailsTable = () => {
     setSelectedImage(null);
   };
 
-  const handleTradingIdea = (url) => {
-    window.location.href = url; // Redirect to the provided Trading Idea URL
+  const handleTradingIdea = (id) => {
+    console.log('Navigating to trade details with ID:', id); // Debugging log
+    navigate(`/trade-details/${id}`);
   };
 
   const handleEdit = (id) => {
@@ -179,7 +180,7 @@ const TradeDetailsTable = () => {
                <td className="px-6 py-4 flex space-x-4">
                 {/* Trading Idea Button */}
                 <button
-                  onClick={() => handleTradingIdea(`/trade-details/edit/${trade.id}`)}
+                  onClick={() => handleTradingIdea(trade.id)} // Updated to pass the id directly
                   className="text-yellow-500 hover:text-yellow-700"
                   title="View Trading Idea"
                 >

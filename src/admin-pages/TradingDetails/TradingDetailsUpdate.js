@@ -89,32 +89,38 @@ const TradingDetailsUpdate = () => {
     setLoading(true);
     setToast({ message: "", type: "" }); // Clear existing toast messages
 
+    // Validate the form before submission
+    if (!validateForm()) {
+        setLoading(false);
+        return; // Stop the submission if validation fails
+    }
+
     const formPayload = new FormData();
 
     // Add non-image fields to payload
     Object.entries(formData).forEach(([key, value]) => {
-      formPayload.append(key, value);
+        formPayload.append(key, value);
     });
 
     // Add image fields to payload
     Object.entries(images).forEach(([key, value]) => {
-      if (value instanceof File) {
-        formPayload.append(key, value);
-      }
+        if (value instanceof File) {
+            formPayload.append(key, value);
+        }
     });
 
     try {
-      const response = await axiosInstance.put(`/api/tradedetails/tradedetails/${id}/`, formPayload, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      console.log("Trade detail updated successfully:", response.data);
-      setToast({ message: "Trade detail updated successfully!", type: "success" });
-      setTimeout(() => navigate("/tradedetails"), 2000); // Navigate back to the list after 2 seconds
+        const response = await axiosInstance.put(`/api/tradedetails/tradedetails/${id}/`, formPayload, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+        console.log("Trade detail updated successfully:", response.data);
+        setToast({ message: "Trade detail updated successfully!", type: "success" });
+        setTimeout(() => navigate("/tradedetails"), 2000); // Navigate back to the list after 2 seconds
     } catch (error) {
         console.error("Error updating trade detail:", error.response?.data || error.message);
-      setToast({ message: "Failed to update trade detail. Please try again.", type: "error" });
+        setToast({ message: "Failed to update trade detail. Please try again.", type: "error" });
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
 
