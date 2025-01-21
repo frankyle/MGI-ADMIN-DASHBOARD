@@ -6,3 +6,6 @@
 
 # Can Read data from the database 
 ![alt text](image-1.png)
+
+# I have created Component to save data for TradingDetails Component
+![alt text](image-2.png)

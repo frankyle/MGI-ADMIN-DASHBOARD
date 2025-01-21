@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from './../auth/axiosInstance';
+import axiosInstance from '../../auth/axiosInstance';
 
-const TradeDetails = () => {
+const TradeDetailsTable = () => {
   const [tradeDetails, setTradeDetails] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -178,4 +178,4 @@ const TradeDetails = () => {
   );
 };
 
-export default TradeDetails;
+export default TradeDetailsTable;
