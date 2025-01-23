@@ -1,118 +1,146 @@
 import React, { useState } from 'react';
-import axiosInstance from '../../auth/axiosInstance';
 
 const EditTradeDetailsModal = ({ open, handleClose, trade, onUpdate }) => {
   const [formData, setFormData] = useState({ ...trade });
 
-  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axiosInstance.put(`/api/tradedetails/tradedetails/${trade.id}/`, formData);
-      if (response.status === 200) {
-        onUpdate(response.data); // Call the onUpdate function to update the parent component
-        handleClose();
-      }
-    } catch (error) {
-      console.error('Error updating trade details:', error);
+  const handleImageChange = (e, fieldName) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prevData) => ({
+          ...prevData,
+          [fieldName]: reader.result, // Set the image preview
+        }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  if (!trade) return null;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onUpdate(formData); // Call the update function passed from the parent
+  };
+
+  if (!open) return null;
 
   return (
-    <div
-      className={`fixed inset-0 bg-gray-800 bg-opacity-50 ${open ? 'block' : 'hidden'}`}
-      onClick={handleClose}
-    >
-      <div
-        className="relative mx-auto my-20 p-8 bg-white rounded-lg shadow-xl w-96"
-        onClick={(e) => e.stopPropagation()} // Prevent closing modal on content click
-      >
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded shadow-lg">
         <h2 className="text-xl font-semibold mb-4">Edit Trade Details</h2>
         <form onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            <div>
-              <label className="block font-medium">Currency Pair</label>
-              <input
-                type="text"
-                name="currency_pair"
-                value={formData.currency_pair}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block font-medium">Trader's Idea Name</label>
-              <input
-                type="text"
-                name="traders_idea_name"
-                value={formData.traders_idea_name}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block font-medium">Trade Signal</label>
-              <input
-                type="text"
-                name="trade_signal"
-                value={formData.trade_signal}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div>
-              <label className="block font-medium">Status</label>
-              <select
-                name="is_active"
-                value={formData.is_active ? 'true' : 'false'}
-                onChange={(e) =>
-                  handleChange({
-                    target: { name: 'is_active', value: e.target.value === 'true' },
-                  })
-                }
-                className="w-full p-2 border border-gray-300 rounded-md"
-              >
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-              </select>
-            </div>
-            <div>
-              <label className="block font-medium">Created At</label>
-              <input
-                type="text"
-                name="created_at"
-                value={formData.created_at}
-                disabled
-                className="w-full p-2 border border-gray-300 rounded-md bg-gray-100"
-              />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="mb-4">
+            <label className="block mb-1">Currency Pair:</label>
+            <input
+              type="text"
+              name="currency_pair"
+              value={formData.currency_pair}
+              onChange={handleChange}
+              className="border rounded w-full p-2"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1">Traders Idea Name:</label>
+            <input
+              type="text"
+              name="traders_idea_name"
+              value={formData.traders_idea_name}
+              onChange={handleChange}
+              className="border rounded w-full p-2"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1">Trade Signal:</label>
+            <input
+              type="text"
+              name="trade_signal"
+              value={formData.trade_signal}
+              onChange={handleChange}
+              className="border rounded w-full p-2"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1">Status:</label>
+            <select
+              name="is_active"
+              value={formData.is_active ? 'true' : 'false'}
+              onChange={(e) => handleChange({ target: { name: 'is_active', value: e.target.value === 'true' } })}
+              className="border rounded w-full p-2"
+            >
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1">Idea Candle:</label>
+            <img src={formData.idea_candle} alt="Idea Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'idea_candle')} />
           </div>
 
-          <div className="mt-6 flex justify-end">
-            <button
-              type="button"
-              onClick={handleClose}
-              className="px-4 py-2 bg-gray-400 text-white rounded-md mr-4"
-            >
+          <div className="mb-4">
+            <label className="block mb-1">Signal Candle:</label>
+            <img src={formData.signal_candle} alt="Signal Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'signal_candle')} />
+          </div>
+
+          <div className="mb-4">
+            <label className="block mb-1">Entry Candle:</label>
+            <img src={formData.entry_candle} alt="Entry Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'entry_candle')} />
+          </div>
+
+          <div className="mb-4">
+            <label className="block mb-1">Line Graph Candle:</label>
+            <img src={formData.line_graph_candle} alt="Line Graph Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'line_graph_candle')} />
+          </div>
+
+          <div className="mb-4">
+            <label className="block mb-1">Hour Candle:</label>
+            <img src={formData.hour_candle} alt="Hour Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'hour_candle')} />
+          </div>
+
+          <div className="mb-4">
+            <label className="block mb-1">2-Hour Candle:</label>
+            <img src={formData.two_hour_candle} alt="2-Hour Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'two_hour_candle')} />
+          </div>
+
+          <div className="mb-4">
+            <label className="block mb-1">Breakeven Candle:</label>
+            <img src={formData.breakeven_candle} alt="Breakeven Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'breakeven_candle')} />
+          </div>
+
+          <div className="mb-4">
+            <label className="block mb-1">Take Profit 1 Candle:</label>
+            <img src={formData.take_profit1_candle} alt="Take Profit 1 Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'take_profit1_candle')} />
+          </div>
+
+          <div className="mb-4">
+            <label className="block mb-1">Take Profit 2 Candle:</label>
+            <img src={formData.take_profit2_candle} alt="Take Profit 2 Candle" className="w-24 h-24 object-contain mb-2" />
+            <input type="file" onChange={(e) => handleImageChange(e, 'take_profit2_candle')} />
+          </div>
+          <div className="flex justify-end">
+            <button type="button" onClick={handleClose} className="mr-2 px-4 py-2 bg-gray-300 rounded">
               Cancel
             </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
-            >
+            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
               Save Changes
             </button>
+          </div>
           </div>
         </form>
       </div>
