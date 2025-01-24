@@ -123,8 +123,11 @@ const TradeDetailsView = () => {
           Back to Trade Details
         </button>
 
-        <button onClick={handleModalOpen} className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-blue-700">
-          Edit Trade
+        <button
+            onClick={() => navigate(`/trade-details/edit/${id}`)} // Navigate to the edit page
+            className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-700"
+          >
+            Edit Trade
         </button>
 
       
@@ -132,7 +135,7 @@ const TradeDetailsView = () => {
           open={isModalOpen}
           handleClose={handleModalClose}
           trade={trade}
-          onUpdate={handleUpdate}
+          onUpdate={handleUpdate} 
         />
       </div>
     </div>
