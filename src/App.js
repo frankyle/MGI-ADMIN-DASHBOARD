@@ -2,20 +2,24 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./admin-pages/Header";
 import Dashboard from "./admin-pages/Dashboard";
-import CandleImages from "./admin-pages/CandleImages";
 import IndicatorsConfirmations from "./admin-pages/IndicatorsConfirmations";
 import Billing from "./admin-pages/Billing";
 import Login from "./auth/Login";
 import TradeDetailsTable from "./admin-pages/TradingDetails/TradeDetailsTable";
 import TableDetailsCreate from "./admin-pages/TradingDetails/TradingDetailsCreate";
 import TableDetailsDelete from "./admin-pages/TradingDetails/TradingDetailsDelete"; // Import the Delete component
+import TradeDetailsUpdate from "./admin-pages/TradingDetails/TradeDetailsUpdate";
 import TradeDetailsView from "./admin-pages/TradingDetails/TradeDetailsView";
 
 import TasksTable from "./admin-pages/Tasks/TasksTable";
 import TaskCreate from "./admin-pages/Tasks/TaskCreate";
 import TaskDetails from "./admin-pages/Tasks/TaskDetails";
 import TaskUpdate from "./admin-pages/Tasks/TaskUpdate";
-import TradeDetailsUpdate from "./admin-pages/TradingDetails/TradeDetailsUpdate";
+
+import CandleImages from "./admin-pages/CandlesImages/CandleImages";
+import CandleImagesView from "./admin-pages/CandlesImages/CandleImagesView";
+import CandleImageUpdate from "./admin-pages/CandlesImages/CandleImagesUpdate";
+import CandleImageCreate from "./admin-pages/CandlesImages/CandleImagesCreate";
 
 function App() {
   return (
@@ -42,6 +46,10 @@ function App() {
         
         
             <Route path="/candle-images" element={<CandleImages />} />
+            <Route path="/candles-image-create" element={<CandleImageCreate />} />
+            <Route path="/candle-view/:id" element={<CandleImagesView />} />
+            <Route path="/candle-images-edit/:id" element={<CandleImageUpdate />} />
+
             <Route path="/indicators-confirmations" element={<IndicatorsConfirmations />} />
             <Route path="/billing" element={<Billing />} />
             <Route path="/login" element={<Login />} />
