@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from './../auth/axiosInstance';
+import axiosInstance from '../../auth/axiosInstance';
+import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import CreateButton from '../../utils/CreateButton';
 
 const CandleImages = () => {
   const [candleImages, setCandleImages] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const navigate = useNavigate(); // Initialize navigate for programmatic navigation
 
   useEffect(() => {
     const fetchCandleImages = async () => {
@@ -31,8 +35,35 @@ const CandleImages = () => {
     setSelectedImage(null);
   };
 
+  const handleView = (id) => {
+    console.log(`Viewing candle image with ID: ${id}`);
+    // Navigate to the candle view page using navigate()
+    navigate(`/candle-view/${id}`);
+  };
+
+  const handleEdit = (id) => {
+    console.log(`Editing candle image with ID: ${id}`);
+    // Navigate to the candle edit page using navigate()
+    navigate(`/candle-images-edit/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm('Are you sure you want to delete this image?');
+    if (confirmed) {
+      try {
+        await axiosInstance.delete(`/api/candleimages/candleimages/${id}/`);
+        setCandleImages(candleImages.filter((image) => image.id !== id));
+        alert('Candle image deleted successfully.');
+      } catch (error) {
+        console.error('Error deleting candle image:', error);
+        alert('Failed to delete candle image.');
+      }
+    }
+  };
+
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
+      <CreateButton text="Create Task" redirectTo="/candles-image-create" />
       <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -45,6 +76,7 @@ const CandleImages = () => {
             <th scope="col" className="px-6 py-3">Saturday Candle</th>
             <th scope="col" className="px-6 py-3">Sunday Candle</th>
             <th scope="col" className="px-6 py-3">Swing Trade Candle</th>
+            <th scope="col" className="px-6 py-3">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -62,11 +94,39 @@ const CandleImages = () => {
                     />
                   </td>
                 ))}
+                <td className="px-6 py-4 flex space-x-3">
+                  {/* View Button */}
+                  <button
+                    onClick={() => handleView(candleImage.id)}
+                    className="text-yellow-500 hover:text-yellow-700"
+                    title="View Candle Image"
+                  >
+                    <FaEye size={20} />
+                  </button>
+
+                  {/* Edit Button */}
+                  <button
+                    onClick={() => handleEdit(candleImage.id)}
+                    className="text-blue-500 hover:text-blue-700"
+                    title="Edit Candle Image"
+                  >
+                    <FaEdit size={20} />
+                  </button>
+
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => handleDelete(candleImage.id)}
+                    className="text-red-500 hover:text-red-700"
+                    title="Delete Candle Image"
+                  >
+                    <FaTrashAlt size={20} />
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="9" className="text-center py-4">No candle images available.</td>
+              <td colSpan="10" className="text-center py-4">No candle images available.</td>
             </tr>
           )}
         </tbody>
