@@ -15,3 +15,34 @@
 
 # Single Item data
 ![alt text](image-4.png)
+
+
+trade-app/
+├── public/
+│   ├── index.html
+│   └── ...
+├── src/
+│   ├── components/
+│   │   ├── Auth/
+│   │   │   ├── LoginForm.js
+│   │   │   └── RegisterForm.js
+│   │   ├── Trade/
+│   │   │   ├── TradeDetails.js
+│   │   │   ├── TradeForm.js
+│   │   │   ├── TradeUpdateForm.js
+│   │   │   └── TradeView.js
+│   │   └── Navbar.js
+│   ├── redux/
+│   │   ├── authSlice.js
+│   │   ├── tradeSlice.js
+│   │   └── store.js
+│   ├── api/
+│   │   ├── api.js                # Axios instance or API functions
+│   │   └── tradeService.js       # Service file for CRUD operations
+│   ├── App.js
+│   ├── index.js
+│   └── styles/
+│       └── App.css
+├── .gitignore
+├── package.json
+└── README.md
