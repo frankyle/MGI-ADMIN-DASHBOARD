@@ -11,6 +11,9 @@ import TableDetailsCreate from "./admin-pages/TradingDetails/TradingDetailsCreat
 import TableDetailsDelete from "./admin-pages/TradingDetails/TradingDetailsDelete"; // Import the Delete component
 import TradeDetailsView from "./admin-pages/TradingDetails/TradeDetailsView";
 import EditTradeDetails from "./admin-pages/TradingDetails/EditTradeDetails";
+import TasksTable from "./admin-pages/Tasks/TasksTable";
+import TaskCreate from "./admin-pages/Tasks/TaskCreate";
+import TaskDetails from "./admin-pages/Tasks/TaskDetails";
 
 function App() {
   return (
@@ -28,6 +31,13 @@ function App() {
             <Route path="/trade-details/:id" element={<TradeDetailsView />} />{/* Read Single item Route */}
             <Route path="/trade-details/edit/:id" element={<EditTradeDetails />} />
             <Route path="/trade-details/delete/:id" element={<TableDetailsDelete />} /> {/* Delete Route */}
+            
+            <Route path="/tasks" element={<TasksTable />} />
+            <Route path="/task-create" element={<TaskCreate />} />
+            <Route path="/task-details/:id" element={<TaskDetails />} />
+            
+        
+        
             <Route path="/candle-images" element={<CandleImages />} />
             <Route path="/indicators-confirmations" element={<IndicatorsConfirmations />} />
             <Route path="/billing" element={<Billing />} />
