@@ -5,7 +5,7 @@ const EditTradeDetailsModal = ({ open, handleClose, trade, onUpdate }) => {
   const [formData, setFormData] = useState({ ...trade });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [errors, setErrors] = useState({}); // Validation errors
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +22,7 @@ const EditTradeDetailsModal = ({ open, handleClose, trade, onUpdate }) => {
       reader.onloadend = () => {
         setFormData((prevData) => ({
           ...prevData,
-          [fieldName]: reader.result, // Base64-encoded image string
+          [fieldName]: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -31,55 +31,41 @@ const EditTradeDetailsModal = ({ open, handleClose, trade, onUpdate }) => {
 
   const validateFields = () => {
     const newErrors = {};
-    if (!formData.currency_pair || formData.currency_pair.trim() === "") {
+    if (formData.currency_pair?.trim() === "") {
       newErrors.currency_pair = "Currency pair is required.";
     }
-    if (!formData.traders_idea_name || formData.traders_idea_name.trim() === "") {
+    if (formData.traders_idea_name?.trim() === "") {
       newErrors.traders_idea_name = "Trader's Idea Name is required.";
     }
-    if (!formData.trade_signal || formData.trade_signal.trim() === "") {
+    if (formData.trade_signal?.trim() === "") {
       newErrors.trade_signal = "Trade signal is required.";
     }
-    if (formData.is_active === undefined) {
-      newErrors.is_active = "Status must be selected.";
-    }
-
-    // Validate images (ensure at least one is uploaded)
-    const imageFields = [
-      "idea_candle",
-      "signal_candle",
-      "entry_candle",
-      "line_graph_candle",
-      "hour_candle",
-      "two_hour_candle",
-      "breakeven_candle",
-      "take_profit1_candle",
-      "take_profit2_candle",
-    ];
-    imageFields.forEach((field) => {
-      if (!formData[field]) {
-        newErrors[field] = `${field.replace(/_/g, " ")} is required.`;
-      }
-    });
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!validateFields()) {
-      return; // Do not proceed if validation fails
+    // Collect only changed fields
+    const changedFields = {};
+    Object.keys(formData).forEach((key) => {
+      if (formData[key] !== trade[key]) {
+        changedFields[key] = formData[key];
+      }
+    });
+
+    if (!validateFields() && Object.keys(changedFields).length === 0) {
+      return; // Prevent saving if validation fails or no changes are made
     }
 
     setLoading(true);
     try {
-      // Make the API request to update the trade
-      const response = await axios.put(
-        `/api/tradedetails/tradedetails/${formData.id}/`,
-        formData
+      const response = await axios.patch(
+        `/api/tradedetails/tradedetails/${trade.id}/`,
+        changedFields
       );
       onUpdate(response.data); // Notify parent component of the update
       handleClose(); // Close the modal
@@ -115,9 +101,12 @@ const EditTradeDetailsModal = ({ open, handleClose, trade, onUpdate }) => {
                 onChange={handleChange}
                 className="border rounded w-full p-2 text-sm"
               />
+              {errors.currency_pair && (
+                <p className="text-red-500 text-xs">{errors.currency_pair}</p>
+              )}
             </div>
             <div className="mb-4">
-              <label className="block mb-1 text-sm">Traders Idea Name:</label>
+              <label className="block mb-1 text-sm">Trader's Idea Name:</label>
               <input
                 type="text"
                 name="traders_idea_name"
@@ -125,6 +114,9 @@ const EditTradeDetailsModal = ({ open, handleClose, trade, onUpdate }) => {
                 onChange={handleChange}
                 className="border rounded w-full p-2 text-sm"
               />
+              {errors.traders_idea_name && (
+                <p className="text-red-500 text-xs">{errors.traders_idea_name}</p>
+              )}
             </div>
             <div className="mb-4">
               <label className="block mb-1 text-sm">Trade Signal:</label>
@@ -135,6 +127,9 @@ const EditTradeDetailsModal = ({ open, handleClose, trade, onUpdate }) => {
                 onChange={handleChange}
                 className="border rounded w-full p-2 text-sm"
               />
+              {errors.trade_signal && (
+                <p className="text-red-500 text-xs">{errors.trade_signal}</p>
+              )}
             </div>
             <div className="mb-4">
               <label className="block mb-1 text-sm">Status:</label>
@@ -152,7 +147,6 @@ const EditTradeDetailsModal = ({ open, handleClose, trade, onUpdate }) => {
                 <option value="false">Inactive</option>
               </select>
             </div>
-            {/* Render image inputs */}
             {[
               { label: "Idea Candle", field: "idea_candle" },
               { label: "Signal Candle", field: "signal_candle" },
