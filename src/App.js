@@ -10,12 +10,12 @@ import TradeDetailsTable from "./admin-pages/TradingDetails/TradeDetailsTable";
 import TableDetailsCreate from "./admin-pages/TradingDetails/TradingDetailsCreate";
 import TableDetailsDelete from "./admin-pages/TradingDetails/TradingDetailsDelete"; // Import the Delete component
 import TradeDetailsView from "./admin-pages/TradingDetails/TradeDetailsView";
-import EditTradeDetails from "./admin-pages/TradingDetails/EditTradeDetails";
 
 import TasksTable from "./admin-pages/Tasks/TasksTable";
 import TaskCreate from "./admin-pages/Tasks/TaskCreate";
 import TaskDetails from "./admin-pages/Tasks/TaskDetails";
 import TaskUpdate from "./admin-pages/Tasks/TaskUpdate";
+import TradeDetailsUpdate from "./admin-pages/TradingDetails/TradeDetailsUpdate";
 
 function App() {
   return (
@@ -30,8 +30,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/trade-details" element={<TradeDetailsTable />} />
             <Route path="/trade-details-create" element={<TableDetailsCreate />} />
-            <Route path="/trade-details/:id" element={<TradeDetailsView />} />{/* Read Single item Route */}
-            <Route path="/trade-details/edit/:id" element={<EditTradeDetails />} />
+            <Route path="/trade-details/:id" element={<TradeDetailsView />} />
+            <Route path="/trade-details-edit/:id" element={<TradeDetailsUpdate />} />
             <Route path="/trade-details/delete/:id" element={<TableDetailsDelete />} /> {/* Delete Route */}
             
             <Route path="/tasks" element={<TasksTable />} />

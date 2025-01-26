@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../auth/axiosInstance';
 import { useNavigate, useParams } from 'react-router-dom';
-import EditTradeDetailsModal from './EditTradeDetailsModal';
-
 
 const TradeDetailsView = () => {
   const [trade, setTrade] = useState(null);
   const { id } = useParams(); // Get the trade id from the URL
   const navigate = useNavigate();
-
-  // Inside TradeDetailsView
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const handleModalOpen = () => setModalOpen(true);
-  const handleModalClose = () => setModalOpen(false);
-
-  const handleUpdate = (updatedTrade) => {
-    setTrade(updatedTrade); // Update the trade details in the parent component
-    setModalOpen(false);
-};
 
   useEffect(() => {
     const fetchTradeDetails = async () => {
@@ -77,66 +64,42 @@ const TradeDetailsView = () => {
 
       <h2 className="text-xl font-semibold mb-4">Candles</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        <div>
-          <strong>Idea Candle:</strong>
-          <img src={trade.idea_candle} alt="Idea Candle" className="w-24 h-24 object-contain" />
-        </div>
-        <div>
-          <strong>Signal Candle:</strong>
-          <img src={trade.signal_candle} alt="Signal Candle" className="w-24 h-24 object-contain" />
-        </div>
-        <div>
-          <strong>Entry Candle:</strong>
-          <img src={trade.entry_candle} alt="Entry Candle" className="w-24 h-24 object-contain" />
-        </div>
-        <div>
-          <strong>Line Graph Candle:</strong>
-          <img src={trade.line_graph_candle} alt="Line Graph Candle" className="w-24 h-24 object-contain" />
-        </div>
-        <div>
-          <strong>Hour Candle:</strong>
-          <img src={trade.hour_candle} alt="Hour Candle" className="w-24 h-24 object-contain" />
-        </div>
-        <div>
-          <strong>2-Hour Candle:</strong>
-          <img src={trade.two_hour_candle} alt="2-Hour Candle" className="w-24 h-24 object-contain" />
-        </div>
-        <div>
-          <strong>Breakeven Candle:</strong>
-          <img src={trade.breakeven_candle} alt="Breakeven Candle" className="w-24 h-24 object-contain" />
-        </div>
-        <div>
-          <strong>Take Profit 1 Candle:</strong>
-          <img src={trade.take_profit1_candle} alt="Take Profit 1 Candle" className="w-24 h-24 object-contain" />
-        </div>
-        <div>
-          <strong>Take Profit 2 Candle:</strong>
-          <img src={trade.take_profit2_candle} alt="Take Profit 2 Candle" className="w-24 h-24 object-contain" />
-        </div>
+        {Object.entries({
+          idea_candle: 'Idea Candle',
+          signal_candle: 'Signal Candle',
+          entry_candle: 'Entry Candle',
+          line_graph_candle: 'Line Graph Candle',
+          hour_candle: 'Hour Candle',
+          two_hour_candle: '2-Hour Candle',
+          breakeven_candle: 'Breakeven Candle',
+          take_profit1_candle: 'Take Profit 1 Candle',
+          take_profit2_candle: 'Take Profit 2 Candle',
+        }).map(([key, label]) => (
+          <div key={key}>
+            <strong>{label}:</strong>
+            {trade[key] ? (
+              <img src={trade[key]} alt={label} className="w-24 h-24 object-contain" />
+            ) : (
+              <p className="text-gray-500">No image available</p>
+            )}
+          </div>
+        ))}
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 flex gap-4">
         <button
           onClick={() => navigate('/trade-details')}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+          className="px-4 py-2 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-700"
         >
           Back to Trade Details
         </button>
 
         <button
-            onClick={() => navigate(`/trade-details/edit/${id}`)} // Navigate to the edit page
-            className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-700"
-          >
-            Edit Trade
+          onClick={() => navigate(`/trade-details-edit/${id}`)} // Redirect to the edit page
+          className="px-4 py-2 bg-orange-500 text-white rounded-full shadow-md hover:bg-orange-700"
+        >
+          Edit Trade
         </button>
-
-      
-        <EditTradeDetailsModal
-          open={isModalOpen}
-          handleClose={handleModalClose}
-          trade={trade}
-          onUpdate={handleUpdate} 
-        />
       </div>
     </div>
   );
