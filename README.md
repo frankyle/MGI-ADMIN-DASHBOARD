@@ -1,48 +1,13 @@
 # This is react and tailwind application that fetched data from django application and views them in table fomart
 
+# CRUD OPERATIONS COMPLETE FOR TASKS APP starting with READ
+![alt text](image-5.png)
 
-# Dashboard Overview plan
-![alt text](image.png)
+# View single item
+![alt text](image-6.png)
 
-# Can Read data from the database 
-![alt text](image-1.png)
+# Update 
+![alt text](image-7.png)
 
-# I have created Component to save data for TradingDetails Component
-![alt text](image-2.png)
-
-# CRUD buttons 
-![alt text](image-3.png)
-
-# Single Item data
-![alt text](image-4.png)
-
-
-trade-app/
-├── public/
-│   ├── index.html
-│   └── ...
-├── src/
-│   ├── components/
-│   │   ├── Auth/
-│   │   │   ├── LoginForm.js
-│   │   │   └── RegisterForm.js
-│   │   ├── Trade/
-│   │   │   ├── TradeDetails.js
-│   │   │   ├── TradeForm.js
-│   │   │   ├── TradeUpdateForm.js
-│   │   │   └── TradeView.js
-│   │   └── Navbar.js
-│   ├── redux/
-│   │   ├── authSlice.js
-│   │   ├── tradeSlice.js
-│   │   └── store.js
-│   ├── api/
-│   │   ├── api.js                # Axios instance or API functions
-│   │   └── tradeService.js       # Service file for CRUD operations
-│   ├── App.js
-│   ├── index.js
-│   └── styles/
-│       └── App.css
-├── .gitignore
-├── package.json
-└── README.md
+# Delete
+![alt text](image-8.png)

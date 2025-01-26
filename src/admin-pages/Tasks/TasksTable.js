@@ -58,7 +58,7 @@ const TasksTable = () => {
   };
 
   const handleEdit = (id) => {
-    navigate(`/task-edit/${id}`);
+    navigate(`/task-edit/${id}`); // Navigate to the edit page for the selected task
   };
 
   const handleDelete = async (id) => {
