@@ -11,9 +11,11 @@ import TableDetailsCreate from "./admin-pages/TradingDetails/TradingDetailsCreat
 import TableDetailsDelete from "./admin-pages/TradingDetails/TradingDetailsDelete"; // Import the Delete component
 import TradeDetailsView from "./admin-pages/TradingDetails/TradeDetailsView";
 import EditTradeDetails from "./admin-pages/TradingDetails/EditTradeDetails";
+
 import TasksTable from "./admin-pages/Tasks/TasksTable";
 import TaskCreate from "./admin-pages/Tasks/TaskCreate";
 import TaskDetails from "./admin-pages/Tasks/TaskDetails";
+import TaskUpdate from "./admin-pages/Tasks/TaskUpdate";
 
 function App() {
   return (
@@ -35,6 +37,7 @@ function App() {
             <Route path="/tasks" element={<TasksTable />} />
             <Route path="/task-create" element={<TaskCreate />} />
             <Route path="/task-details/:id" element={<TaskDetails />} />
+            <Route path="/task-edit/:id" element={<TaskUpdate />} />
             
         
         
