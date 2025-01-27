@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from './../auth/axiosInstance';
+import axiosInstance from './../../auth/axiosInstance';
+import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import CreateButton from '../../utils/CreateButton';
 
-const IndicatorsConfirnations = () => {
+const IndicatorsTable = () => {
   const [tradingIndicators, setTradingIndicators] = useState([]);
+  const navigate = useNavigate(); // Initialize navigate for programmatic navigation
 
   useEffect(() => {
     const fetchTradingIndicators = async () => {
@@ -20,8 +24,31 @@ const IndicatorsConfirnations = () => {
     fetchTradingIndicators();
   }, []);
 
+  const handleView = (id) => {
+    navigate(`/indicators-view/${id}`); // Navigate to the view page using the indicator ID
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/indicators-edit/${id}`); // Navigate to the edit page using the indicator ID
+  };
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm('Are you sure you want to delete this indicator?');
+    if (confirmed) {
+      try {
+        await axiosInstance.delete(`/api/tradingindicators/tradingindicators/${id}/`);
+        setTradingIndicators(tradingIndicators.filter((indicator) => indicator.id !== id));
+        alert('Indicator deleted successfully.');
+      } catch (error) {
+        console.error("Error deleting trading indicator:", error);
+        alert('Failed to delete indicator.');
+      }
+    }
+  };
+
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
+      <CreateButton text="Confirm Indicators" redirectTo="/indicators-create" />  
       <table className="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -41,6 +68,7 @@ const IndicatorsConfirnations = () => {
             <th scope="col" className="px-6 py-3">Fractal & Alligator</th>
             <th scope="col" className="px-6 py-3">Pips Stoploss</th>
             <th scope="col" className="px-6 py-3">Pips Gained</th>
+            <th scope="col" className="px-6 py-3">Actions</th> {/* Added Actions column */}
           </tr>
         </thead>
         <tbody>
@@ -61,13 +89,40 @@ const IndicatorsConfirnations = () => {
                 <td className="px-6 py-4">{indicator.fvg_blocks ? 'Yes' : 'No'}</td>
                 <td className="px-6 py-4">{indicator.change_color_ut_alert ? 'Yes' : 'No'}</td>
                 <td className="px-6 py-4">{indicator.fractal_and_alligator ? 'Yes' : 'No'}</td>
-                <td className="px-6 py-4">{indicator.pips_stoploss}</td>
+                <td className="px-6 py-4">{indicator.pips_stoplost}</td>
                 <td className="px-6 py-4">{indicator.pips_gained}</td>
+
+                {/* Actions column with View, Edit, and Delete buttons */}
+                <td className="px-6 py-4 flex space-x-3">
+                  <button
+                    onClick={() => handleView(indicator.id)}
+                    className="text-yellow-500 hover:text-yellow-700"
+                    title="View Indicator"
+                  >
+                    <FaEye size={20} />
+                  </button>
+
+                  <button
+                    onClick={() => handleEdit(indicator.id)}
+                    className="text-blue-500 hover:text-blue-700"
+                    title="Edit Indicator"
+                  >
+                    <FaEdit size={20} />
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(indicator.id)}
+                    className="text-red-500 hover:text-red-700"
+                    title="Delete Indicator"
+                  >
+                    <FaTrashAlt size={20} />
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="16" className="px-6 py-4 text-center">No data available</td>
+              <td colSpan="17" className="px-6 py-4 text-center">No data available</td>
             </tr>
           )}
         </tbody>
@@ -76,4 +131,4 @@ const IndicatorsConfirnations = () => {
   );
 };
 
-export default IndicatorsConfirnations;
+export default IndicatorsTable;

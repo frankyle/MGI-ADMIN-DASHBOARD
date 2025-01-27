@@ -164,21 +164,22 @@ const TradeDetailsTable = () => {
                 />
               </td>
               <td className="px-6 py-4">
-                <img
-                  src={trade.take_profit1_candle}
-                  alt="Take Profit 1 Candle"
-                  className="w-24 h-24 object-contain cursor-pointer"
-                  onClick={() => openModal(trade.take_profit1_candle)}
-                />
-              </td>
-              <td className="px-6 py-4">
-                <img
-                  src={trade.take_profit2_candle}
-                  alt="Take Profit 2 Candle"
-                  className="w-24 h-24 object-contain cursor-pointer"
-                  onClick={() => openModal(trade.take_profit2_candle)}
-                />
-              </td>
+                  <img
+                    src={trade.take_profit_one_candle}
+                    alt="Take Profit 1 Candle"
+                    className="w-24 h-24 object-contain cursor-pointer"
+                    onClick={() => openModal(trade.take_profit_one_candle)}
+                  />
+                </td>
+                <td className="px-6 py-4">
+                  <img
+                    src={trade.take_profit_two_candle}
+                    alt="Take Profit 2 Candle"
+                    className="w-24 h-24 object-contain cursor-pointer"
+                    onClick={() => openModal(trade.take_profit_two_candle)}
+                  />
+                </td>
+
               <td className="px-6 py-4">{formatDate(trade.created_at)}</td>
                <td className="px-6 py-4 flex space-x-4">
                 {/* Trading Idea Button */}
