@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./admin-pages/Header";
 import Dashboard from "./admin-pages/Dashboard";
-import IndicatorsConfirmations from "./admin-pages/IndicatorsConfirmations";
 import Billing from "./admin-pages/Billing";
 import Login from "./auth/Login";
+
 import TradeDetailsTable from "./admin-pages/TradingDetails/TradeDetailsTable";
 import TableDetailsCreate from "./admin-pages/TradingDetails/TradingDetailsCreate";
 import TableDetailsDelete from "./admin-pages/TradingDetails/TradingDetailsDelete"; // Import the Delete component
@@ -20,6 +20,11 @@ import CandleImages from "./admin-pages/CandlesImages/CandleImages";
 import CandleImagesView from "./admin-pages/CandlesImages/CandleImagesView";
 import CandleImageUpdate from "./admin-pages/CandlesImages/CandleImagesUpdate";
 import CandleImageCreate from "./admin-pages/CandlesImages/CandleImagesCreate";
+
+import IndicatorsTable from "./admin-pages/Indicators/IndicatorsTable";
+import IndicatorsView from "./admin-pages/Indicators/IndicatorsView";
+import IndicatorsUpdate from "./admin-pages/Indicators/IndicatorsUpdate";
+import IndicatorsCreate from "./admin-pages/Indicators/IndicatorsCreate";
 
 function App() {
   return (
@@ -50,7 +55,11 @@ function App() {
             <Route path="/candle-view/:id" element={<CandleImagesView />} />
             <Route path="/candle-images-edit/:id" element={<CandleImageUpdate />} />
 
-            <Route path="/indicators-confirmations" element={<IndicatorsConfirmations />} />
+            <Route path="/indicators-confirmations" element={<IndicatorsTable />} />
+            <Route path="/indicators-create" element={<IndicatorsCreate />} />
+            <Route path="/indicators-view/:id" element={<IndicatorsView />} />
+            <Route path="/indicators-edit/:id" element={<IndicatorsUpdate />} />
+          
             <Route path="/billing" element={<Billing />} />
             <Route path="/login" element={<Login />} />
           </Routes>
