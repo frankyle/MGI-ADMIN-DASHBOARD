@@ -82,14 +82,15 @@ const TradeDetailsTable = () => {
             <th scope="col" className="px-6 py-3">Trade Signal</th>
             <th scope="col" className="px-6 py-3">Status</th>
             <th scope="col" className="px-6 py-3">Idea Candle</th>
+            <th scope="col" className="px-6 py-3">Line Graph Candle</th>
+            <th scope="col" className="px-6 py-3">2-Hour Candle</th>
+            <th scope="col" className="px-6 py-3">Hour Candle</th>
             <th scope="col" className="px-6 py-3">Signal Candle</th>
             <th scope="col" className="px-6 py-3">Entry Candle</th>
-            <th scope="col" className="px-6 py-3">Line Graph Candle</th>
-            <th scope="col" className="px-6 py-3">Hour Candle</th>
-            <th scope="col" className="px-6 py-3">2-Hour Candle</th>
             <th scope="col" className="px-6 py-3">Breakeven Candle</th>
             <th scope="col" className="px-6 py-3">Take Profit 1 Candle</th>
             <th scope="col" className="px-6 py-3">Take Profit 2 Candle</th>
+            <th scope="col" className="px-6 py-3">Status</th>
             <th scope="col" className="px-6 py-3">Created At</th>
           </tr>
         </thead>
@@ -114,6 +115,30 @@ const TradeDetailsTable = () => {
               </td>
               <td className="px-6 py-4">
                 <img
+                  src={trade.line_graph_candle}
+                  alt="Line Graph Candle"
+                  className="w-24 h-24 object-contain cursor-pointer"
+                  onClick={() => openModal(trade.line_graph_candle)}
+                />
+              </td>
+              <td className="px-6 py-4">
+                <img
+                  src={trade.two_hour_candle}
+                  alt="2-Hour Candle"
+                  className="w-24 h-24 object-contain cursor-pointer"
+                  onClick={() => openModal(trade.two_hour_candle)}
+                />
+              </td>
+              <td className="px-6 py-4">
+                <img
+                  src={trade.hour_candle}
+                  alt="Hour Candle"
+                  className="w-24 h-24 object-contain cursor-pointer"
+                  onClick={() => openModal(trade.hour_candle)}
+                />
+              </td>
+              <td className="px-6 py-4">
+                <img
                   src={trade.signal_candle}
                   alt="Signal Candle"
                   className="w-24 h-24 object-contain cursor-pointer"
@@ -128,30 +153,8 @@ const TradeDetailsTable = () => {
                   onClick={() => openModal(trade.entry_candle)}
                 />
               </td>
-              <td className="px-6 py-4">
-                <img
-                  src={trade.line_graph_candle}
-                  alt="Line Graph Candle"
-                  className="w-24 h-24 object-contain cursor-pointer"
-                  onClick={() => openModal(trade.line_graph_candle)}
-                />
-              </td>
-              <td className="px-6 py-4">
-                <img
-                  src={trade.hour_candle}
-                  alt="Hour Candle"
-                  className="w-24 h-24 object-contain cursor-pointer"
-                  onClick={() => openModal(trade.hour_candle)}
-                />
-              </td>
-              <td className="px-6 py-4">
-                <img
-                  src={trade.two_hour_candle}
-                  alt="2-Hour Candle"
-                  className="w-24 h-24 object-contain cursor-pointer"
-                  onClick={() => openModal(trade.two_hour_candle)}
-                />
-              </td>
+
+              
               <td className="px-6 py-4">
                 <img
                   src={trade.breakeven_candle}
